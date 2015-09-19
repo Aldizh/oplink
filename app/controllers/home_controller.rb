@@ -2,10 +2,10 @@ require 'savon'
 require 'rufus/scheduler'
 require 'mail'
 class HomeController < ApplicationController
-	before_filter :authenticate_user!
+	before_action :authenticate_user!
 	SEARCH_OPTIONS = ['Name', 'Email', 'Phone', 'ID']
 	SCHEDULER = Rufus::Scheduler.start_new
-	def index	
+	def index
 	end
 
 	def activate_disable
@@ -31,7 +31,7 @@ class HomeController < ApplicationController
 		end
 
 		@customer = Customer.find(session[:customer_id])
-		savon_client = Savon::Client.new("http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
+		savon_client = Savon::Client.new(:wsdl => "http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
 		#puts savon_client.wsdl.soap_actions
 		session[:auth] = "C4miforciao2013"
 		session[:phone] = @customer.phone
@@ -108,7 +108,7 @@ class HomeController < ApplicationController
 	end
 
     def displayOpuInfo
-    	savon_client = Savon::Client.new("http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
+    	savon_client = Savon::Client.new(:wsdl => "http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
     	#savon_client = Savon::Client.new("http://test.server.oplink.com:8080/C4miDataExchange/services/C4miForCiaoWebServiceImpl?wsdl")
 		@response = savon_client.request :web, :get_owner_opu_info_by_opu_sn, body: {auth: "C4miforciao2013", opuSn: params[:input]}
 		@response1 = savon_client.request :web, :get_owner_opu_info_by_phone_num, body: {auth: "C4miforciao2013", phone: params[:input]}

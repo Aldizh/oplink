@@ -1,6 +1,5 @@
 class CustomersController < ApplicationController
-  before_filter :authenticate_user!
-  load_and_authorize_resource :except => [:payment_history]
+  before_action :authenticate_user!
   
   def index
     @customers = Customer.all

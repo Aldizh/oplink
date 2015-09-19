@@ -33,7 +33,16 @@ class CsnCustomersController < ApplicationController
             if payment.save
               opu = Opu.find_by_sn(payment.opu_sn)
               #code for making sure the activation request went through
-              savon_client = Savon::Client.new("http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
+              savon_client = Savon::Client.new(
+                :wsdl => "http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl",
+
+                # Lower timeouts so these specs don't take forever when the service is not available.
+                :open_timeout => 10,
+                :read_timeout => 10,
+          
+                # Disable logging for cleaner spec output.
+                :log => false
+              )
               session[:auth] = "C4miforciao2013"
               session[:phone] = customer.phone
               session[:opu] = payment.opu_sn

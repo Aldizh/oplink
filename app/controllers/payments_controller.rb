@@ -56,7 +56,7 @@ class PaymentsController < ApplicationController
     @payment.opu_sn = @opu.sn
     @customer = Customer.find(@payment.customer_id)
     #code for making sure the activation request went through
-    savon_client = Savon::Client.new("http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
+    savon_client = Savon::Client.new(:wsdl => "http://c4miws.elasticbeanstalk.com/services/C4miForCiaoWebServiceImpl?wsdl")
     session[:auth] = "C4miforciao2013"
     session[:phone] = @customer.phone
     session[:opu] = @payment.opu_sn

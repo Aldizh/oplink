@@ -1,4 +1,4 @@
-class CreateCsnCustomers < ActiveRecord::Migration
+class CreateCsnCustomers < ActiveRecord::Migration[6.1]
   def change
     create_table :csn_customers do |t|
       t.datetime :activation_date
